@@ -1,16 +1,7 @@
-// Toter Schmetterling — Bass Line (Sample-basiert)
-// 8 echte Bass-Samples von GitHub. In Strudel REPL pasten!
+// 🎵 Toter Schmetterling — Bass Line
+// Lädt Samples via strudel.json von GitHub
 
-await samples({
-  bass_A2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_A2.wav",
-  bass_C2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_C2.wav",
-  bass_Cs2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_Cs2.wav",
-  bass_D2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_D2.wav",
-  bass_Ds2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_Ds2.wav",
-  bass_E2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_E2.wav",
-  bass_G2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_G2.wav",
-  bass_Gs2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_Gs2.wav",
-});
+samples("github:voglll/strudel-converter/master")
 
 setcps(2.598)
 
