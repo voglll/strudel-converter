@@ -1,2 +1,9 @@
-samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/strudel.json?v=5')
-s("bass").gain(1)
+samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/strudel_v3.json')
+
+setcps(2.5333)
+
+stack(
+  s("bass").loop(1).gain(0.95),
+  s("drums").loop(1).gain(0.85),
+  s("other").loop(1).gain(0.5).room(0.15).lpf(6000),
+)
