@@ -1,9 +1,9 @@
-samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/strudel_v3.json')
+samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/strudel_v4.json')
 
 setcps(2.5333)
 
 stack(
-  s("bass").loop(1).gain(0.95),
-  s("drums").loop(1).gain(0.85),
-  s("other").loop(1).gain(0.5).room(0.15).lpf(6000),
+  s("bass_loop").loop(1).gain(0.95),
+  s("other_loop").loop(1).gain(0.5).room(0.15).lpf(6000),
+  stack(`[dr_kick ~ dr_hat ~ dr_snare ~ dr_hat ~ dr_kick ~ dr_hat ~ dr_snare ~ dr_hat ~] [dr_kick ~ dr_hat ~ dr_snare ~ dr_hat ~ dr_kick ~ dr_hat ~ dr_snare ~ dr_hat]`).gain(0.85),
 )
