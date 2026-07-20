@@ -9,6 +9,7 @@ from .export import analysis_to_strudel
 from .fourier_mode import fourier_to_strudel
 from .stem_workflow import run_stem_workflow
 from .loop_optimizer import run_loop
+from .full_pipeline import run_full_pipeline
 
 AUDIO_EXTENSIONS = {".mp3", ".wav", ".ogg", ".flac", ".m4a", ".aac"}
 
@@ -19,7 +20,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("-o", "--output", help="Optional output file or output folder.")
     parser.add_argument(
         "--mode",
-        choices=("grid", "fourier", "stems", "loop"),
+        choices=("grid", "fourier", "stems", "loop", "full"),
         default="grid",
         help="Conversion mode: 'grid' (beat/event), 'fourier' (sinusoidal), 'stems' (stem separation), or 'loop' (closed-loop beat optimizer).",
     )
@@ -144,6 +145,12 @@ def main() -> None:
                 audio_file,
                 output_txt_path=output_path,
                 focus_beats=args.loop_beats,
+            )
+        elif args.mode == "full":
+            strudel_code = run_full_pipeline(
+                audio_file,
+                output_txt=output_path,
+                focus_seconds=15.0,
             )
         else:
             analysis = analyze_track(audio_file)
