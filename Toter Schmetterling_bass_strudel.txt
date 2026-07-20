@@ -1,0 +1,22 @@
+// Bass sample sequence — generated from bass stem
+// Source: c:\Users\micha\Desktop\strudel\Toter Schmetterling_stems\Toter Schmetterling_bass.wav
+// Tempo: 155.88 BPM, 8 unique notes
+
+// 1) Load samples (host these WAVs on GitHub or a static server)
+// await samples({
+//   bass_C2: "https://your-server.com/samples/bass_bass_C2.wav",
+//   bass_Cs2: "https://your-server.com/samples/bass_bass_Cs2.wav",
+//   bass_D2: "https://your-server.com/samples/bass_bass_D2.wav",
+//   bass_Ds2: "https://your-server.com/samples/bass_bass_Ds2.wav",
+//   bass_E2: "https://your-server.com/samples/bass_bass_E2.wav",
+//   bass_Gs2: "https://your-server.com/samples/bass_bass_Gs2.wav",
+//   bass_G2: "https://your-server.com/samples/bass_bass_G2.wav",
+//   bass_A2: "https://your-server.com/samples/bass_bass_A2.wav",
+// })
+
+// 2) Sequence pattern (39 beats, 16th-note grid)
+setcps(2.5980)
+
+s("[bass_C2 ~ [bass_Cs2+bass_D2] ~ bass_C2 ~ ~ bass_Ds2 bass_D2 bass_C2 ~ bass_D2 bass_Cs2 ~ bass_Ds2 ~] [~ ~ ~ bass_D2 bass_C2 bass_Cs2 bass_D2 bass_D2 bass_Cs2 [bass_Cs2+bass_Cs2] ~ bass_Ds2 ~ ~ [bass_Cs2+bass_D2] bass_Ds2] [bass_C2 ~ bass_Ds2 ~ bass_C2 ~ ~ bass_Ds2 bass_Cs2 ~ ~ ~ bass_C2 ~ ~ bass_Ds2] [bass_Cs2 ~ bass_D2 ~ bass_C2 ~ ~ bass_Ds2 ~ ~ [bass_Cs2+bass_Ds2] bass_D2 ~ ~ bass_E2 bass_Ds2] [bass_Gs2 bass_Gs2 bass_G2 ~ ~ [bass_Gs2+bass_G2] bass_G2 ~ ~ [bass_A2+bass_G2] bass_G2 ~ [bass_A2+bass_Gs2] bass_G2 bass_G2 bass_A2] [bass_A2 bass_G2 bass_G2 bass_G2 bass_Gs2 ~ bass_G2 bass_A2 ~ [bass_A2+bass_G2] bass_G2 ~ bass_A2 bass_Gs2 bass_G2 ~] [~ bass_A2 bass_G2 ~ bass_A2 bass_G2 bass_G2 bass_A2 bass_A2 bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 bass_A2] [~ ~ bass_G2 bass_A2 ~ bass_G2 bass_G2 ~ [bass_A2+bass_Gs2] bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 ~] [bass_A2 bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 ~ ~ bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~] [bass_A2 bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~ [bass_A2+bass_A2] bass_G2 bass_G2 ~]")
+  .decay(0.2).sustain(0.1)
+  .lpf(600).gain(0.8).room(0.1)

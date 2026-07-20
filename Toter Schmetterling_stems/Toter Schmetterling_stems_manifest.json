@@ -1,0 +1,45 @@
+{
+  "source": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling.mp3",
+  "sample_rate": 22050,
+  "score": 0.5263520581448776,
+  "metrics": {
+    "recon_loss": 0.002165394426890829,
+    "bass_leak": 0.01530158029895088,
+    "drum_leak": 0.014939972937166934,
+    "harmony_leak": 1.6088643147241994,
+    "texture_energy": 0.00023589861409081518
+  },
+  "config": {
+    "bass_cutoff_hz": 162.0,
+    "drum_low_hz": 144.0,
+    "drum_high_hz": 9000.0,
+    "texture_hp_hz": 2000.0,
+    "iterations": 1
+  },
+  "stems": {
+    "drums": {
+      "path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_drums.wav",
+      "strudel_path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_drums.txt",
+      "rms": 0.09039660857396647,
+      "peak": 0.8486461054331826
+    },
+    "bass": {
+      "path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_bass.wav",
+      "strudel_path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_bass.txt",
+      "rms": 0.2704781341022272,
+      "peak": 0.8238178158382164
+    },
+    "harmony": {
+      "path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_harmony.wav",
+      "strudel_path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_harmony.txt",
+      "rms": 0.0852861193204534,
+      "peak": 0.6019532444472715
+    },
+    "texture": {
+      "path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_texture.wav",
+      "strudel_path": "c:\\Users\\micha\\Desktop\\strudel\\Toter Schmetterling_stems\\Toter Schmetterling_texture.txt",
+      "rms": 0.015358991310981824,
+      "peak": 0.17184340683731733
+    }
+  }
+}

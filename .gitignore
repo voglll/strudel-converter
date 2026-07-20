@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+_bass_*.py
+_make_*.py
+_extract_*.py
+_plot_*.py
+_bass_phase2.py
+Toter Schmetterling.mp3
+Toter Schmetterling_stems/*.wav
+!Toter Schmetterling_stems/bass_samples/*.wav
+Toter Schmetterling_stems/*.txt
+!Toter Schmetterling_stems/bass_samples/
+Toter Schmetterling_loop*.wav
+Toter Schmetterling_fourier*.wav
+Toter Schmetterling_recon.wav
+Toter Schmetterling_residual.wav
