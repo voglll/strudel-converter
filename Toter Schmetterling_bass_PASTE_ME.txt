@@ -1,0 +1,30 @@
+// 🎵 Toter Schmetterling — Bass Line (Sample-basiert)
+// 8 echte Bass-Samples von GitHub geladen. Komplett pasten!
+
+await samples({
+  bass_A2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_A2.wav",
+  bass_C2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_C2.wav",
+  bass_Cs2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_Cs2.wav",
+  bass_D2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_D2.wav",
+  bass_Ds2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_Ds2.wav",
+  bass_E2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_E2.wav",
+  bass_G2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_G2.wav",
+  bass_Gs2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_Gs2.wav",
+});
+
+setcps(2.598)
+
+s(
+"[bass_C2 ~ [bass_Cs2+bass_D2] ~ bass_C2 ~ ~ bass_Ds2 bass_D2 bass_C2 ~ bass_D2 bass_Cs2 ~ bass_Ds2 ~]"
+"[~ ~ ~ bass_D2 bass_C2 bass_Cs2 bass_D2 bass_D2 bass_Cs2 [bass_Cs2+bass_Cs2] ~ bass_Ds2 ~ ~ [bass_Cs2+bass_D2] bass_Ds2]"
+"[bass_C2 ~ bass_Ds2 ~ bass_C2 ~ ~ bass_Ds2 bass_Cs2 ~ ~ ~ bass_C2 ~ ~ bass_Ds2]"
+"[bass_Cs2 ~ bass_D2 ~ bass_C2 ~ ~ bass_Ds2 ~ ~ [bass_Cs2+bass_Ds2] bass_D2 ~ ~ bass_E2 bass_Ds2]"
+"[bass_Gs2 bass_Gs2 bass_G2 ~ ~ [bass_Gs2+bass_G2] bass_G2 ~ ~ [bass_A2+bass_G2] bass_G2 ~ [bass_A2+bass_Gs2] bass_G2 bass_G2 bass_A2]"
+"[bass_A2 bass_G2 bass_G2 bass_G2 bass_Gs2 ~ bass_G2 bass_A2 ~ [bass_A2+bass_G2] bass_G2 ~ bass_A2 bass_Gs2 bass_G2 ~]"
+"[~ bass_A2 bass_G2 ~ bass_A2 bass_G2 bass_G2 bass_A2 bass_A2 bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 bass_A2]"
+"[~ ~ bass_G2 bass_A2 ~ bass_G2 bass_G2 ~ [bass_A2+bass_Gs2] bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 ~]"
+"[bass_A2 bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 ~ ~ bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~]"
+"[bass_A2 bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~ [bass_A2+bass_A2] bass_G2 bass_G2 ~]"
+")
+  .decay(0.2).sustain(0.1)
+  .lpf(600).gain(0.8).room(0.1)
