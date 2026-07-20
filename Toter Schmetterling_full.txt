@@ -1,2 +1,2 @@
-samples('github:voglll/strudel-converter')
+samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/strudel.json?v=5')
 s("bass").gain(1)
