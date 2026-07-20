@@ -86,38 +86,44 @@ def _save_wav(path: Path, audio: np.ndarray) -> None:
 # ---------------------------------------------------------------------------
 
 def _process_drums(wav_path: Path, samples_dir: Path, focus_s: float) -> tuple[list[tuple[float, str]], set[str]]:
-    """Extract drum samples + sequence."""
+    """Extract drum samples using band-specific onset detection."""
     y, _ = librosa.load(wav_path, sr=SR, mono=True)
     y = librosa.util.normalize(y[: int(focus_s * SR)])
 
-    S = np.abs(librosa.stft(y, n_fft=2048, hop_length=256))
-    freqs = librosa.fft_frequencies(sr=SR, n_fft=2048)
-    ke = S[(freqs >= 20) & (freqs <= 200)].mean(axis=0)
-    se = S[(freqs >= 300) & (freqs <= 5000)].mean(axis=0)
-    he = S[(freqs >= 6000)].mean(axis=0)
+    # Band-specific onset detection
+    y_kick = _bandpass(y, 30, 200)
+    y_snare = _bandpass(y, 400, 6000)
+    y_hat = _bandpass(y, 7000, 10000)
 
-    ons = _onsets(y, 256)
+    k_ons = set(_onsets(y_kick, 256))
+    s_ons = set(_onsets(y_snare, 256))
+    h_ons = set(_onsets(y_hat, 256))
+
     kicks, snares, hats = [], [], []
     seq = []
+    used = set()
 
-    for o in ons:
-        lo, hi = max(0, o - 1), min(len(ke), o + 3)
-        k = float(np.mean(ke[lo:hi]))
-        s = float(np.mean(se[lo:hi]))
-        h = float(np.mean(he[lo:hi]))
-        mx = max(k, s, h)
-        if mx < 0.001:
+    for o in sorted(k_ons | s_ons | h_ons):
+        if o in used or o < 2:
             continue
-
         s0 = int(o * 256)
         s1 = min(s0 + int(0.12 * SR), len(y))
         seg = y[s0:s1]
+        ik, is_, ih = o in k_ons, o in s_ons, o in h_ons
 
-        if k == mx:
+        if is_ and not ik:
+            seg = _bandpass(seg, 200, 5000)
+            snares.append(seg)
+            label = "dr_snare"
+        elif ih and not ik and not is_:
+            seg = _bandpass(seg, 6000, 10000)
+            hats.append(seg)
+            label = "dr_hat"
+        elif ik:
             seg = _bandpass(seg, 30, 160)
             kicks.append(seg)
             label = "dr_kick"
-        elif s == mx:
+        elif is_:
             seg = _bandpass(seg, 200, 5000)
             snares.append(seg)
             label = "dr_snare"
@@ -127,6 +133,7 @@ def _process_drums(wav_path: Path, samples_dir: Path, focus_s: float) -> tuple[l
             label = "dr_hat"
 
         seq.append((o * 256 / SR, label))
+        used.add(o)
 
     # Save canonical samples
     names = set()
