@@ -11,13 +11,13 @@ from pathlib import Path
 import librosa
 import numpy as np
 from scipy.io import wavfile
-from scipy.signal import butter, filtfilt
+from scipy.signal import butter, sosfiltfilt
 
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
 
-SR = 22050
+SR = 44100  # Match Demucs output — no quality loss from resampling
 LOOP_BARS = 2
 DEMUCS_DIR = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling_strudel\demucs\htdemucs\Toter Schmetterling")
 SAMPLE_DIR = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling_strudel\samples")
@@ -34,9 +34,7 @@ def load_wav(path: Path) -> np.ndarray:
     if data.ndim > 1:
         data = data[:, 0]
     data = data.astype(np.float32) / 32768.0
-    if sr != SR:
-        data = librosa.resample(data, orig_sr=sr, target_sr=SR)
-    return data
+    return data  # Keep original sample rate — no quality loss
 
 
 def save_wav(path: Path, audio: np.ndarray):
@@ -48,11 +46,8 @@ def save_wav(path: Path, audio: np.ndarray):
 
 def _bandpass(y: np.ndarray, lo: float, hi: float, order: int = 4) -> np.ndarray:
     nyq = SR / 2
-    # For very low frequencies, use lower order to avoid instability
-    if lo < nyq * 0.01:
-        order = min(order, 4)
-    b, a = butter(order, [lo / nyq, min(hi, nyq * 0.99) / nyq], btype="band")
-    return filtfilt(b, a, y)
+    sos = butter(order, [lo / nyq, min(hi, nyq * 0.99) / nyq], btype="band", output="sos")
+    return sosfiltfilt(sos, y)
 
 
 def _onsets(y: np.ndarray, hop: int = 256) -> list[int]:
@@ -68,17 +63,21 @@ def _onsets(y: np.ndarray, hop: int = 256) -> list[int]:
 # ---------------------------------------------------------------------------
 
 def find_loop_start(drums: np.ndarray):
-    onset_env = librosa.onset.onset_strength(y=drums, sr=SR)
-    tempo, beats = librosa.beat.beat_track(y=drums, sr=SR, onset_envelope=onset_env)
+    # Beat-track at 22050 Hz for consistent tempo (librosa optimized for this)
+    drums_22k = librosa.resample(drums, orig_sr=SR, target_sr=22050) if SR != 22050 else drums
+    onset_env = librosa.onset.onset_strength(y=drums_22k, sr=22050)
+    tempo, beats = librosa.beat.beat_track(y=drums_22k, sr=22050, onset_envelope=onset_env)
     tempo = float(tempo.item() if hasattr(tempo, 'item') else tempo)
 
-    bar_beats = beats[::4]  # Downbeats (4/4)
+    # Convert beat frames back to original sample rate
+    bar_beats = beats[::4]
     if len(bar_beats) < 2:
         return 0, tempo
 
     bar_scores = []
     for i, bi in enumerate(bar_beats):
-        s0 = librosa.frames_to_samples(bi)
+        s0_22k = librosa.frames_to_samples(bi)
+        s0 = int(s0_22k * SR / 22050)  # Scale to original SR
         t = s0 / SR
         lo = max(0, s0 - SR // 8)
         hi = min(len(drums), s0 + SR // 4)
@@ -94,6 +93,7 @@ def find_loop_start(drums: np.ndarray):
         best = max(bar_scores, key=lambda x: x[1])
 
     start_sample = librosa.frames_to_samples(bar_beats[best[0]])
+    start_sample = int(start_sample * SR / 22050)
     print(f"  Tempo: {tempo:.1f} BPM, starting at bar {best[0] + 1}/{len(bar_beats)}")
     return start_sample, tempo
 
@@ -115,7 +115,11 @@ def make_drum_loops(drums_loop: np.ndarray) -> dict:
     - hat:   6000-11000 Hz (hi-hats/cymbals, above guitars)
     """
     result = {}
-    for name, lo, hi, order in [("kick", 40, 120, 4), ("snare", 600, 3000, 6), ("hat", 6000, 11000, 6)]:
+    # Bands cover full spectrum — no gaps, nothing lost:
+    # kick: 30-150 Hz (sub + kick fundamental)
+    # snare: 150-5000 Hz (snare body, toms, crack)
+    # hat: 5000-20000 Hz (cymbals, hi-hats, air)
+    for name, lo, hi, order in [("kick", 30, 150, 4), ("snare", 150, 5000, 6), ("hat", 5000, 20000, 6)]:
         band = _bandpass(drums_loop, lo, hi, order=order)
         peak = float(np.max(np.abs(band)))
         if peak > 0:
