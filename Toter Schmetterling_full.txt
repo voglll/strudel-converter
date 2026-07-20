@@ -1,9 +1,2 @@
 samples('github:voglll/strudel-converter')
-
-setcps(2.5333)
-
-stack(
-  s("bass").loop(1).gain(0.95).lpf(500),
-  s("drums").loop(1).gain(0.9),
-  s("other").loop(1).gain(0.6).room(0.2).lpf(4000),
-)
+s("bass").gain(1)
