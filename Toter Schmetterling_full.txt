@@ -1,11 +1,12 @@
-samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/strudel_v5.json')
+samples('https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/strudel_full.json')
 
-setcps(2.5333)
+// One cycle = entire song (234s)
+setcps(0.004275)
 
 stack(
-  s("bass_loop").loop(1).gain(0.95),
-  s("other_loop").loop(1).gain(0.5).room(0.15).lpf(6000),
-  s("dr_kick_loop").loop(1).gain(0.9),
-  s("dr_snare_loop").loop(1).gain(0.85),
-  s("dr_hat_loop").loop(1).gain(0.7),
+  s("bass_full").gain(0.95),
+  s("other_full").gain(0.5).room(0.15).lpf(6000),
+  s("kick_full").gain(0.9),
+  s("snare_full").gain(0.85),
+  s("hat_full").gain(0.7),
 )
