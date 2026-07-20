@@ -1,7 +1,7 @@
 // 🎵 Toter Schmetterling — Bass Line
 // Lädt Samples via strudel.json von GitHub
 
-samples("github:voglll/strudel-converter/master")
+samples("github:voglll/strudel-converter")
 
 setcps(2.598)
 
