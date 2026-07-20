@@ -1,8 +1,8 @@
 {
   "_base": "https://raw.githubusercontent.com/voglll/strudel-converter/main/",
-  "dr_hat": "Toter%20Schmetterling_stems/beat_samples/dr_hat.wav",
   "dr_kick": "Toter%20Schmetterling_stems/beat_samples/dr_kick.wav",
   "dr_snare": "Toter%20Schmetterling_stems/beat_samples/dr_snare.wav",
+  "dr_hat": "Toter%20Schmetterling_stems/beat_samples/dr_hat.wav",
   "hm_A3": "Toter%20Schmetterling_stems/beat_samples/hm_A3.wav",
   "hm_B2": "Toter%20Schmetterling_stems/beat_samples/hm_B2.wav",
   "hm_B3": "Toter%20Schmetterling_stems/beat_samples/hm_B3.wav",
