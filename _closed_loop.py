@@ -12,10 +12,11 @@ SR = 22050; HOP = 256; NFFT = 2048; FOCUS = 10.0; TEMPO = 155.88; BD = 60.0 / TE
 ORIG = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling.mp3")
 DRUM_STEM = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling_stems\Toter Schmetterling_drums.wav")
 BASS_STEM = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling_stems\Toter Schmetterling_bass.wav")
+VERSION = "v2"
 BEAT_DIR = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling_stems\beat_samples")
 BASS_DIR = Path(r"c:\Users\micha\Desktop\strudel\Toter Schmetterling_stems\bass_samples")
 SJSON = Path(r"c:\Users\micha\Desktop\strudel\strudel.json")
-OUT = Path(r"c:\Users\micha\Desktop\strudel\BASS_LINE.txt")
+OUT = Path(r"c:\Users\micha\Desktop\strudel\BEAT_v2.txt")
 
 # -----------------------------------------------------------------------
 # 1) Onset detection + classification
@@ -173,33 +174,30 @@ else:
     hat_params = {"hi_cut": 8000, "decay": 0.03, "vol": 0.3}
     print(f"  Hat: no onsets — using defaults")
 
-# -----------------------------------------------------------------------
-# 5) Save optimized WAV samples
-# -----------------------------------------------------------------------
+# Clean old unversioned drum WAVs
+for old in BEAT_DIR.glob("dr_*.wav"):
+    if "_v" not in old.stem:
+        old.unlink()
+
 print("\n4) Saving optimized WAV samples...")
 def save_wav(audio, name):
+    fname = f"{name}_{VERSION}"
     peak = float(np.max(np.abs(audio))) if audio.size else 1.0
     scaled = (audio / max(1e-9, peak) * 32767 * 0.9).astype(np.int16)
-    wavfile.write(str(BEAT_DIR / f"{name}.wav"), SR, scaled)
-    print(f"  {name}.wav ({len(audio)/SR*1000:.0f}ms)")
+    wavfile.write(str(BEAT_DIR / f"{fname}.wav"), SR, scaled)
+    print(f"  {fname}.wav ({len(audio)/SR*1000:.0f}ms)")
+    return fname
 
-save_wav(kick_audio, "dr_kick")
-save_wav(snare_audio, "dr_snare")
-save_wav(hat_audio, "dr_hat")
+k_name = save_wav(kick_audio, "dr_kick")
+s_name = save_wav(snare_audio, "dr_snare")
+h_name = save_wav(hat_audio, "dr_hat")
 
-# Update strudel.json
+# Update strudel.json with versioned names
 smap = {"_base": "https://raw.githubusercontent.com/voglll/strudel-converter/main/"}
-for d, prefix in [(BEAT_DIR, "dr_"), (BASS_DIR, "bass_")]:
-    for f in d.glob(f"{prefix}*.wav"):
-        folder = "beat_samples" if "beat" in str(d) else "bass_samples"
-        smap[f.stem] = f"Toter%20Schmetterling_stems/{folder}/{f.name}"
-
-# Add harmony/texture if they exist
-for d in [BEAT_DIR]:
-    for f in d.glob("hm_*.wav"):
-        smap[f.stem] = f"Toter%20Schmetterling_stems/beat_samples/{f.name}"
-    for f in d.glob("tx_*.wav"):
-        smap[f.stem] = f"Toter%20Schmetterling_stems/beat_samples/{f.name}"
+for f in BEAT_DIR.glob(f"*_{VERSION}.wav"):
+    smap[f.stem] = f"Toter%20Schmetterling_stems/beat_samples/{f.name}"
+for f in BASS_DIR.glob("bass_*.wav"):
+    smap[f.stem] = f"Toter%20Schmetterling_stems/bass_samples/{f.name}"
 
 SJSON.write_text(json.dumps(smap, indent=2))
 
@@ -230,11 +228,11 @@ for o in ons_b:
     key = f"bass_{note}"
     if key in bset: bass_seq.append((o * HOP / SR, key))
 
-# Drum sequence from classified onsets
+# Drum sequence from classified onsets (use versioned names)
 drum_seq = []
-for o in kick_ons: drum_seq.append((o * HOP / SR, "dr_kick"))
-for o in snare_ons: drum_seq.append((o * HOP / SR, "dr_snare"))
-for o in hat_ons: drum_seq.append((o * HOP / SR, "dr_hat"))
+for o in kick_ons: drum_seq.append((o * HOP / SR, f"dr_kick_{VERSION}"))
+for o in snare_ons: drum_seq.append((o * HOP / SR, f"dr_snare_{VERSION}"))
+for o in hat_ons: drum_seq.append((o * HOP / SR, f"dr_hat_{VERSION}"))
 drum_seq.sort()
 
 def seq_to_pat(seq, spb=4):
@@ -256,9 +254,9 @@ bp_s = seq_to_pat(bass_seq)
 dp_s = seq_to_pat(drum_seq)
 cps = TEMPO / 60.0
 
-code = f"samples('github:voglll/strudel-converter')\nsetcps({cps:.4f})\n\nstack(\n  // bass\n  stack(`{bp_s}`).gain(0.9).lpf(500),\n  // drums\n  stack(`{dp_s}`).gain(0.85).room(0.05),\n)\n"
+code = f"samples('github:voglll/strudel-converter')\nsetcps({cps:.4f})\n\nstack(\n  // bass\n  stack(`{bp_s}`).gain(0.9).lpf(500),\n  // drums (synthesized, band-energy-matched)\n  stack(`{dp_s}`).gain(0.85).room(0.05),\n)\n"
 OUT.write_text(code)
 
-print(f"  BASS_LINE.txt ({len(code)} bytes)")
+print(f"  {OUT.name} ({len(code)} bytes)")
 print(code[:300] + "...")
-print("\n✅ Done! Samples are SYNTHESIZED and matched to original band energy.")
+print(f"\n✅ BEAT_v2.txt — all samples versioned as *_v2.wav")
