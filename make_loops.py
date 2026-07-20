@@ -46,9 +46,12 @@ def save_wav(path: Path, audio: np.ndarray):
     wavfile.write(str(path), SR, (audio * 32767).astype(np.int16))
 
 
-def _bandpass(y: np.ndarray, lo: float, hi: float) -> np.ndarray:
+def _bandpass(y: np.ndarray, lo: float, hi: float, order: int = 4) -> np.ndarray:
     nyq = SR / 2
-    b, a = butter(4, [lo / nyq, min(hi, nyq * 0.99) / nyq], btype="band")
+    # For very low frequencies, use lower order to avoid instability
+    if lo < nyq * 0.01:
+        order = min(order, 4)
+    b, a = butter(order, [lo / nyq, min(hi, nyq * 0.99) / nyq], btype="band")
     return filtfilt(b, a, y)
 
 
@@ -112,8 +115,8 @@ def make_drum_loops(drums_loop: np.ndarray) -> dict:
     - hat:   6000-11000 Hz (hi-hats/cymbals, above guitars)
     """
     result = {}
-    for name, lo, hi in [("kick", 40, 120), ("snare", 400, 3000), ("hat", 6000, 11000)]:
-        band = _bandpass(drums_loop, lo, hi)
+    for name, lo, hi, order in [("kick", 40, 120, 4), ("snare", 600, 3000, 6), ("hat", 6000, 11000, 6)]:
+        band = _bandpass(drums_loop, lo, hi, order=order)
         peak = float(np.max(np.abs(band)))
         if peak > 0:
             band = band / peak * 0.95
