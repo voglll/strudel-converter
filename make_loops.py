@@ -101,21 +101,19 @@ def loop_length_samples(tempo: float, bars: int = LOOP_BARS) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Drum splitter: 3 bandpassed loops (kick / snare / hat)
+# Drum splitter: narrow bandpassed loops
 # ---------------------------------------------------------------------------
 
 def make_drum_loops(drums_loop: np.ndarray) -> dict:
     """
-    Split drums into 3 frequency-band loops:
-    - kick:  30-200 Hz  (low end)
-    - snare: 200-5000 Hz (mids, snares, toms)
-    - hat:   5000-10000 Hz (highs, cymbals, hi-hats)
-    Each is a loop of the same length as the input.
+    Split drums into 3 narrow-band loops:
+    - kick:  40-120 Hz   (sub-bass, kick fundamental)
+    - snare: 400-3000 Hz  (snare body + crack, avoids guitar mud)
+    - hat:   6000-11000 Hz (hi-hats/cymbals, above guitars)
     """
     result = {}
-    for name, lo, hi in [("kick", 30, 200), ("snare", 200, 5000), ("hat", 5000, 10000)]:
+    for name, lo, hi in [("kick", 40, 120), ("snare", 400, 3000), ("hat", 6000, 11000)]:
         band = _bandpass(drums_loop, lo, hi)
-        # Normalize
         peak = float(np.max(np.abs(band)))
         if peak > 0:
             band = band / peak * 0.95
