@@ -1,14 +1,13 @@
 {
   "_base": "https://raw.githubusercontent.com/voglll/strudel-converter/main/",
+  "bass_A2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_A2.wav",
+  "bass_Cs2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_Cs2.wav",
+  "bass_D2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_D2.wav",
+  "bass_Ds2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_Ds2.wav",
+  "bass_E2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_E2.wav",
+  "bass_G2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_G2.wav",
+  "bass_Gs2": "Toter%20Schmetterling_stems/bass_samples_v5/bass_Gs2.wav",
   "dr_hat_v3": "Toter%20Schmetterling_stems/beat_samples/dr_hat_v3.wav",
   "dr_kick_v3": "Toter%20Schmetterling_stems/beat_samples/dr_kick_v3.wav",
-  "dr_snare_v3": "Toter%20Schmetterling_stems/beat_samples/dr_snare_v3.wav",
-  "bass_ml_A1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_A1.wav",
-  "bass_ml_As1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_As1.wav",
-  "bass_ml_B1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_B1.wav",
-  "bass_ml_Ds2": "Toter%20Schmetterling_stems/bass_samples/bass_ml_Ds2.wav",
-  "bass_ml_F1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_F1.wav",
-  "bass_ml_Fs1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_Fs1.wav",
-  "bass_ml_G1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_G1.wav",
-  "bass_ml_Gs1": "Toter%20Schmetterling_stems/bass_samples/bass_ml_Gs1.wav"
+  "dr_snare_v3": "Toter%20Schmetterling_stems/beat_samples/dr_snare_v3.wav"
 }
