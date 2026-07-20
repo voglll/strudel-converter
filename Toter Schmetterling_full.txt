@@ -1,8 +1,4 @@
-samples({
-  drums: 'https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/loops/drums_loop.wav',
-  bass: 'https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/loops/bass_loop.wav',
-  other: 'https://raw.githubusercontent.com/voglll/strudel-converter/main/Toter%20Schmetterling_strudel/loops/other_loop.wav',
-})
+samples('github:voglll/strudel-converter')
 
 setcps(2.5333)
 
