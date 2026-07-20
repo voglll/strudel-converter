@@ -1,5 +1,5 @@
-// 🎵 Toter Schmetterling — Bass Line (Sample-basiert)
-// 8 echte Bass-Samples von GitHub geladen. Komplett pasten!
+// Toter Schmetterling — Bass Line (Sample-basiert)
+// 8 echte Bass-Samples von GitHub. In Strudel REPL pasten!
 
 await samples({
   bass_A2: "https://raw.githubusercontent.com/voglll/strudel-converter/master/Toter%20Schmetterling_stems/bass_samples/bass_A2.wav",
@@ -14,7 +14,8 @@ await samples({
 
 setcps(2.598)
 
-s("[bass_C2 ~ [bass_Cs2 bass_D2] ~ bass_C2 ~ ~ bass_Ds2 bass_D2 bass_C2 ~ bass_D2 bass_Cs2 ~ bass_Ds2 ~]"+
+const pat =
+"[bass_C2 ~ [bass_Cs2 bass_D2] ~ bass_C2 ~ ~ bass_Ds2 bass_D2 bass_C2 ~ bass_D2 bass_Cs2 ~ bass_Ds2 ~]"+
 "[~ ~ ~ bass_D2 bass_C2 bass_Cs2 bass_D2 bass_D2 bass_Cs2 [bass_Cs2 bass_Cs2] ~ bass_Ds2 ~ ~ [bass_Cs2 bass_D2] bass_Ds2]"+
 "[bass_C2 ~ bass_Ds2 ~ bass_C2 ~ ~ bass_Ds2 bass_Cs2 ~ ~ ~ bass_C2 ~ ~ bass_Ds2]"+
 "[bass_Cs2 ~ bass_D2 ~ bass_C2 ~ ~ bass_Ds2 ~ ~ [bass_Cs2 bass_Ds2] bass_D2 ~ ~ bass_E2 bass_Ds2]"+
@@ -23,6 +24,6 @@ s("[bass_C2 ~ [bass_Cs2 bass_D2] ~ bass_C2 ~ ~ bass_Ds2 bass_D2 bass_C2 ~ bass_D
 "[~ bass_A2 bass_G2 ~ bass_A2 bass_G2 bass_G2 bass_A2 bass_A2 bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 bass_A2]"+
 "[~ ~ bass_G2 bass_A2 ~ bass_G2 bass_G2 ~ [bass_A2 bass_Gs2] bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 ~]"+
 "[bass_A2 bass_Gs2 bass_G2 ~ bass_A2 bass_G2 bass_G2 ~ ~ bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~]"+
-"[bass_A2 bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~ [bass_A2 bass_A2] bass_G2 bass_G2 ~]")
-  .decay(0.2).sustain(0.1)
-  .lpf(600).gain(0.8).room(0.1)
+"[bass_A2 bass_G2 bass_G2 bass_A2 bass_Gs2 ~ bass_G2 ~ [bass_A2 bass_A2] bass_G2 bass_G2 ~]"
+
+s(pat).decay(0.2).sustain(0.1).lpf(600).gain(0.8).room(0.1)
