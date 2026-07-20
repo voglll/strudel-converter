@@ -399,14 +399,19 @@ def run_full_pipeline(
         "_base": f"https://raw.githubusercontent.com/voglll/strudel-converter/main/{out_dir.name}/samples/"
     }
     for f in samples_dir.glob("*.wav"):
-        strudel_map[f.stem] = str(f.relative_to(out_dir)).replace("\\", "/")
+        strudel_map[f.stem] = f.name
     (out_dir / "strudel.json").write_text(json.dumps(strudel_map, indent=2))
 
     # 4) Generate Strudel code
     print("4/4 Generating Strudel code...")
     cps = tempo / 60.0
+    
+    # Build the full raw URL for strudel.json
+    repo_path = str(out_dir.relative_to(out_dir.parent)).replace("\\", "/").replace(" ", "%20")
+    strudel_url = f"https://raw.githubusercontent.com/voglll/strudel-converter/main/{repo_path}/strudel.json"
+    
     lines = [
-        f"samples('github:voglll/strudel-converter/{out_dir.name}')",
+        f"samples('{strudel_url}')",
         f"setcps({cps:.4f})",
         "",
     ]
